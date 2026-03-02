@@ -201,7 +201,7 @@ export function CvPage() {
 
       {/* BOTTOM BAR */}
       <div className={styles.bottomBar}>
-        <a href="/marksharapov-cv.pdf" download="marksharapov-cv.pdf" target="_blank" rel="noopener noreferrer" className={styles.downloadBtn}>
+        <a href="/marksharapov-cv.pdf" target="_blank" rel="noopener noreferrer" className={styles.downloadBtn}>
           ↓ Скачать PDF
         </a>
       </div>

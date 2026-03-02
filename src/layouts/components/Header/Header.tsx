@@ -183,15 +183,6 @@ export function Header() {
     }
   }
 
-  const handleCvDownload = () => {
-    const blob = new Blob([''], { type: 'application/pdf' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = 'sharapov-cv.pdf'
-    a.click()
-    URL.revokeObjectURL(url)
-  }
 
   if (isHome) {
     return (
@@ -268,9 +259,9 @@ export function Header() {
 
       <div className={styles.mobileBar}>
         {mode === 'cv' && (
-          <button type="button" className={styles.cvDownloadPill} onClick={handleCvDownload}>
+          <a href="/marksharapov-cv.pdf" target="_blank" rel="noopener noreferrer" className={styles.cvDownloadPill}>
             ↓ Скачать PDF
-          </button>
+          </a>
         )}
 
         {mode === 'tutor' || mode === 'dev' ? (
