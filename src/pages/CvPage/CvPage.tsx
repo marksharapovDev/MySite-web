@@ -6,6 +6,22 @@ import markPhoto from '../../assets/images/mark-silhouette.png'
 import styles from './CvPage.module.scss'
 import { GitHubStats } from './GitHubStats'
 
+async function downloadCv() {
+  try {
+    const res = await fetch(cvPdfUrl)
+    if (!res.ok) throw new Error('fetch failed')
+    const blob = await res.blob()
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'marksharapov-cv.pdf'
+    a.click()
+    URL.revokeObjectURL(url)
+  } catch {
+    window.open(cvPdfUrl, '_blank')
+  }
+}
+
 const contacts = [
   { Icon: PaperPlaneTilt, text: '@marksharapov', href: 'https://t.me/marksharapov' },
   { Icon: Phone, text: '+7 916 817 76 33', href: 'tel:+79168177633' },
@@ -201,9 +217,9 @@ export function CvPage() {
 
       {/* BOTTOM BAR */}
       <div className={styles.bottomBar}>
-        <a href={cvPdfUrl} download="marksharapov-cv.pdf" className={styles.downloadBtn}>
+        <button type="button" onClick={downloadCv} className={styles.downloadBtn}>
           ↓ Скачать PDF
-        </a>
+        </button>
       </div>
     </div>
   )
