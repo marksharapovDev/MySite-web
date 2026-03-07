@@ -58,14 +58,14 @@ const education = [
   },
 ]
 
-const hardSkills = ['React', 'TypeScript', 'Node.js', 'Django', 'Python', 'PostgreSQL', 'Git', 'Figma', 'Docker']
+const hardSkills = ['TypeScript', 'React', 'Next.js', 'Node.js', 'Python', 'Django', 'PostgreSQL', 'Prisma', 'Git', 'Docker', 'Figma']
 
 const softSkills = [
   'Системное мышление',
   'Ответственность',
-  'Коммуникабельность',
   'Работа в команде',
   'Дисциплина',
+  'Результативность и эффективность',
 ]
 
 
@@ -80,7 +80,7 @@ export function CvPage() {
           </div>
           <div className={styles.nameBlock}>
             <h1 className={styles.name}>Марк Шарапов</h1>
-            <p className={styles.role}>Full-Stack Developer</p>
+            <p className={styles.role}>Front-end/Full-stack Developer</p>
           </div>
 
           <div className={styles.aboutBlock}>

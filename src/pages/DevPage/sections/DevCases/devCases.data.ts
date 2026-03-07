@@ -43,13 +43,13 @@ export const FILTERS: readonly { label: string; value: 'all' | CaseStatus }[] = 
 
 export const cases: CaseItem[] = [
   {
-    id: 'taskflow',
-    title: 'TaskFlow',
-    subtitle: 'Платформа для управления задачами — все участники видят актуальный статус в реальном времени',
+    id: 'jagervpn',
+    title: 'JagerVPN',
+    subtitle: 'VPN сервис, с большим кол-вом локаций и способов обхода блокировок, а также удобным интерфейсом для управления подпиской',
     category: 'SaaS',
     status: 'done',
     tags: ['SaaS', 'React', 'Node.js', 'PostgreSQL', 'WebSocket'],
-    metric: '10 000+ задач в месяц',
+    metric: '1 000+ клиентов в месяц',
 
     overview:
       'TaskFlow — инструмент для командной работы с задачами. Все участники видят, кто что делает прямо сейчас — без лишних совещаний и пересылки сообщений.',
@@ -93,9 +93,9 @@ export const cases: CaseItem[] = [
   },
 
   {
-    id: 'learnbridge',
-    title: 'LearnBridge',
-    subtitle: 'Личный кабинет для репетиторов: расписание, домашние задания и прогресс учеников в одном месте',
+    id: 'ligroup',
+    title: 'LiGroup',
+    subtitle: 'Платформа для VR обучения различным проффесим, интегрированная в школьное образование и поддерживающая дистанционный формат',
     category: 'Education Platform',
     status: 'done',
     tags: ['LMS', 'React', 'Django', 'PostgreSQL', 'Celery'],
@@ -143,9 +143,9 @@ export const cases: CaseItem[] = [
   },
 
   {
-    id: 'opscenter',
-    title: 'OpsCenter',
-    subtitle: 'Дашборд, заменивший 12 ручных Excel-отчётов: данные из трёх систем в одном экране',
+    id: 'stories',
+    title: 'Stories',
+    subtitle: 'Сеть салонов красоты в пригороде Санкт-Петербурга — с удобной онлайн-записью, программой лояльности и CRM для управления клиентами',
     category: 'Internal Tool',
     status: 'done',
     tags: ['Internal Tool', 'Next.js', 'tRPC', 'PostgreSQL', 'Analytics'],

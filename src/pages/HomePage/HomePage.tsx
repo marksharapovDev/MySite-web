@@ -11,14 +11,15 @@ const NAME = 'Марк Шарапов'
 type StatBlock = {
   value: number
   prefix: string
+  suffix?: string
   label: string
   to: string
   accentClass: string
 }
 
 const stats: StatBlock[] = [
-  { value: 4, prefix: '', label: 'года в разработке', to: '/cv', accentClass: styles.accentHome },
-  { value: 20, prefix: '~', label: 'проектов реализовано', to: '/dev', accentClass: styles.accentDev },
+  { value: 4, prefix: '', suffix: '+', label: 'года в разработке', to: '/cv', accentClass: styles.accentHome },
+  { value: 15, prefix: '~', label: 'проектов реализовано', to: '/dev', accentClass: styles.accentDev },
   { value: 50, prefix: '~', label: 'учеников подготовлено', to: '/tutor', accentClass: styles.accentTutor },
 ]
 
@@ -40,14 +41,14 @@ const TAGS: Tag[] = [
   { label: 'Олимпиады', accent: 'tutor' },
 ]
 
-function useCountUp(ref: React.RefObject<HTMLSpanElement | null>, target: number, prefix: string) {
+function useCountUp(ref: React.RefObject<HTMLSpanElement | null>, target: number, prefix: string, suffix = '') {
   useEffect(() => {
     const el = ref.current
     if (!el) return
 
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReduced) {
-      el.textContent = `${prefix}${target}`
+      el.textContent = `${prefix}${target}${suffix}`
       return
     }
 
@@ -59,7 +60,7 @@ function useCountUp(ref: React.RefObject<HTMLSpanElement | null>, target: number
       const progress = Math.min(elapsed / duration, 1)
       const eased = 1 - Math.pow(1 - progress, 3)
       const current = Math.round(eased * target)
-      el!.textContent = `${prefix}${current}`
+      el!.textContent = `${prefix}${current}${suffix}`
 
       if (progress < 1) {
         requestAnimationFrame(tick)
@@ -67,13 +68,13 @@ function useCountUp(ref: React.RefObject<HTMLSpanElement | null>, target: number
     }
 
     requestAnimationFrame(tick)
-  }, [ref, target, prefix])
+  }, [ref, target, prefix, suffix])
 }
 
 function StatCard({ stat, index }: { stat: StatBlock; index: number }) {
   const numRef = useRef<HTMLSpanElement>(null)
   const navigate = useNavigate()
-  useCountUp(numRef, stat.value, stat.prefix)
+  useCountUp(numRef, stat.value, stat.prefix, stat.suffix)
 
   return (
     <button
