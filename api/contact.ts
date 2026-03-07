@@ -1,83 +1,56 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node'
+import express from 'express'
 
-const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-}
+const app = express();
+app.use(express.json());
 
-function formatTutorMessage(fields: {
-  format: string
-  name: string
-  contact: string
-  description: string
-}) {
+const BOT_TOKEN = process.env.BOT_TOKEN;
+const CHAT_ID = process.env.CHAT_ID;
+
+function formatTutorMessage({ format, name, contact, description }: { format: string; name: string; contact: string; description: string }) {
   return [
     '🔔 *Новая заявка — Репетитор*',
-    `📋 Формат: ${fields.format}`,
-    `👤 Имя: ${fields.name}`,
-    `📞 Контакт: ${fields.contact}`,
-    `📝 Ситуация: ${fields.description}`,
-  ].join('\n')
+    `📋 Формат: ${format}`,
+    `👤 Имя: ${name}`,
+    `📞 Контакт: ${contact}`,
+    `📝 Ситуация: ${description}`,
+  ].join('\n');
 }
 
-function formatDevMessage(fields: {
-  name: string
-  contact: string
-  description: string
-}) {
+function formatDevMessage({ name, contact, description }: { name: string; contact: string; description: string }) {
   return [
     '🔔 *Новая заявка — Разработчик*',
     '',
-    `👤 Имя: ${fields.name}`,
-    `📞 Контакт: ${fields.contact}`,
-    `📝 О проекте: ${fields.description}`,
-  ].join('\n')
+    `👤 Имя: ${name}`,
+    `📞 Контакт: ${contact}`,
+    `📝 О проекте: ${description}`,
+  ].join('\n');
 }
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-  Object.entries(CORS_HEADERS).forEach(([key, value]) => {
-    res.setHeader(key, value)
-  })
-
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end()
-  }
-
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' })
-  }
-
+app.post('/api/contact', async (req, res) => {
   try {
-    const { format, name, contact, description, type } = req.body
-
-    const text =
-      type === 'tutor'
-        ? formatTutorMessage({ format, name, contact, description })
-        : formatDevMessage({ name, contact, description })
+    const { format, name, contact, description, type } = req.body;
+    const text = type === 'tutor'
+      ? formatTutorMessage({ format, name, contact, description })
+      : formatDevMessage({ name, contact, description });
 
     const telegramRes = await fetch(
-      `https://api.telegram.org/bot${process.env.BOT_TOKEN}/sendMessage`,
+      `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: process.env.CHAT_ID,
-          text,
-          parse_mode: 'Markdown',
-        }),
-      },
-    )
+        body: JSON.stringify({ chat_id: CHAT_ID, text, parse_mode: 'Markdown' }),
+      }
+    );
 
     if (!telegramRes.ok) {
-      const errorBody = await telegramRes.text()
-      console.error('Telegram API error:', errorBody)
-      return res.status(500).json({ error: 'Failed to send message' })
+      console.error('Telegram error:', await telegramRes.text());
+      return res.status(500).json({ error: 'Failed to send message' });
     }
-
-    return res.status(200).json({ success: true })
+    return res.json({ success: true });
   } catch (error) {
-    console.error('Handler error:', error)
-    return res.status(500).json({ error: 'Internal server error' })
+    console.error('Error:', error);
+    return res.status(500).json({ error: 'Internal server error' });
   }
-}
+});
+
+app.listen(3001, () => console.log('API running on port 3001'));

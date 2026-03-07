@@ -3,8 +3,9 @@
     "target": "ES2023",
     "lib": ["ES2023"],
     "module": "ESNext",
-    "types": ["node"],
+    "types": ["node", "express"],
     "skipLibCheck": true,
+    "esModuleInterop": true,
 
     /* Bundler mode */
     "moduleResolution": "node",
@@ -18,5 +19,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["vite.config.ts"]
+  "include": ["vite.config.ts", "api/**/*.ts"]
 }
