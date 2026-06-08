@@ -36,12 +36,7 @@ const tutorMenu: MenuItem[] = [
   { label: 'Оставить заявку', href: '#apply' },
 ]
 
-const devMenu: MenuItem[] = [
-  { label: 'Обо мне', href: '#about' },
-  { label: 'Услуги', href: '#services' },
-  { label: 'Кейсы', href: '#cases' },
-  { label: 'Связаться со мной', href: '#contacts' },
-]
+const devMenu: MenuItem[] = []
 
 export function Header() {
   const { pathname } = useLocation()
@@ -59,13 +54,17 @@ export function Header() {
           ? 'home'
           : null
 
-  const menu = mode === 'tutor' ? tutorMenu : mode === 'dev' ? devMenu : []
+  const menu = useMemo(() => {
+    if (mode === 'tutor') return tutorMenu
+    if (mode === 'dev') return devMenu
+    return []
+  }, [mode])
 
   const modeTabs = [
     { to: '/', mode: 'home' as const, icon: <House size={22} weight="bold" />, label: 'Home' },
-    { to: '/tutor', mode: 'tutor' as const, icon: <GraduationCap size={22} weight="bold" />, label: 'Tutor' },
-    { to: '/dev', mode: 'dev' as const, icon: <Code size={22} weight="bold" />, label: 'Dev' },
     { to: '/cv', mode: 'cv' as const, icon: <FileText size={22} weight="bold" />, label: 'CV' },
+    { to: '/dev', mode: 'dev' as const, icon: <Code size={22} weight="bold" />, label: 'Dev' },
+    { to: '/tutor', mode: 'tutor' as const, icon: <GraduationCap size={22} weight="bold" />, label: 'Tutor' },
   ]
 
   const hrefToId = useCallback((href: string) => {
@@ -87,8 +86,8 @@ export function Header() {
 
   const activeMenu = activeMenuState.mode === mode ? activeMenuState.label : ''
 
-  // Cycle order for mobile mode button: home → tutor → dev → cv → home
-  const modeOrder: Mode[] = ['home', 'tutor', 'dev', 'cv']
+  // Cycle order for mobile mode button: home → cv → dev → tutor → home
+  const modeOrder: Mode[] = ['home', 'cv', 'dev', 'tutor']
   const currentIdx = modeOrder.indexOf(mode)
   const nextIdx = (currentIdx + 1) % modeOrder.length
   const nextTab = modeTabs[nextIdx]
@@ -168,6 +167,7 @@ export function Header() {
         return <Star size={size} weight={weight} />
       case 'Cases':
       case 'Кейсы':
+      case 'Проекты':
         return <FolderSimple size={size} weight={weight} />
       case 'FAQ':
         return <Question size={size} weight={weight} />

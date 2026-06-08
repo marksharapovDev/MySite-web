@@ -28,7 +28,8 @@
   flex-direction: column;
   padding: $space-10 0 $space-8;
   justify-content: center;
-  scroll-margin-top: 35px;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 // ── Heading ───────────────────────────────────────────────────────────────────

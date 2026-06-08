@@ -55,6 +55,7 @@ export function TutorPage() {
       <Directions lang={lang} onDirectionSelect={handleDirectionSelect} />
 
       <Pricing
+        key={`${selectedDirection?.direction ?? 'default'}-${selectedDirection?.intensity ?? 'default'}`}
         lang={lang}
         onApply={handlePricingApply}
         initialGoal={selectedDirection?.direction}

@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useEffect } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import { CaretDown, CheckCircle } from '@phosphor-icons/react'
 
 import { Button } from '../../../../shared/ui/Button'
@@ -86,26 +86,16 @@ function PillGroup<T extends string | number>({
 
 export function Pricing({ lang = 'ru', onApply, initialGoal, initialIntensity }: Props) {
   const [format, setFormat] = useState<Format>('individual')
-  const [intensity, setIntensity] = useState<Intensity>('standard')
+  const [intensity, setIntensity] = useState<Intensity>(
+    initialIntensity && intensityOptions.includes(initialIntensity) ? initialIntensity : 'standard',
+  )
   const [frequency, setFrequency] = useState<Frequency>('2x')
-  const [goal, setGoal] = useState<Goal>('oge')
+  const [goal, setGoal] = useState<Goal>(
+    initialGoal && goalOptions.includes(initialGoal) ? initialGoal : 'oge',
+  )
   const [duration, setDuration] = useState<Duration>(60)
   const [urgency, setUrgency] = useState<Urgency>('later')
   const [howOpen, setHowOpen] = useState(false)
-
-  // Set goal from initialGoal prop (when coming from Directions)
-  useEffect(() => {
-    if (initialGoal && goalOptions.includes(initialGoal)) {
-      setGoal(initialGoal)
-    }
-  }, [initialGoal])
-
-  // Set intensity from initialIntensity prop (when coming from Directions)
-  useEffect(() => {
-    if (initialIntensity && intensityOptions.includes(initialIntensity)) {
-      setIntensity(initialIntensity)
-    }
-  }, [initialIntensity])
 
   const config = useMemo(
     () => ({ format, intensity, frequency, goal, duration, urgency }),

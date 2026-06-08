@@ -10,7 +10,7 @@ const contacts = [
   { Icon: PaperPlaneTilt, text: '@marksharapov', href: 'https://t.me/marksharapov' },
   { Icon: Phone, text: '+7 916 817 76 33', href: 'tel:+79168177633' },
   { Icon: GithubLogo, text: 'github.com/marksharapovDev', short: 'github', href: 'https://github.com/marksharapovDev' },
-  { Icon: Code, text: 'codewars.com', short: 'codewars', href: 'https://www.codewars.com/users/marksharapovDev', mobileHide: true },
+  { Icon: Code, text: 'codewars.com/marksharapovDev', short: 'codewars', href: 'https://www.codewars.com/users/marksharapovDev', mobileHide: true },
 ]
 
 const experience = [

@@ -10,6 +10,7 @@
   top: 0;
   z-index: $z-header;
   padding: 12px 0;
+  view-transition-name: site-header;
 }
 
 :global(html[data-mode='tutor']) .navLinkActive button {
@@ -283,6 +284,7 @@
 /* Mobile bottom navigation (hidden on desktop) */
 .mobileBar {
   display: none;
+  view-transition-name: site-mobile-bar;
 }
 
 .mobileNav {

@@ -1,43 +1,40 @@
+import { CaretDown } from '@phosphor-icons/react'
+
 import { Container } from '../../../../shared/ui/Container'
 
 import styles from './DevHero.module.scss'
-
-// Reuse the same cutout silhouette image
-import markSilhouette from '../../../../assets/images/markProg.png'
 
 export function DevHero() {
   return (
     <section id="hero" className={styles.hero}>
       <Container>
         <div className={styles.inner}>
-          <div className={styles.left}>
-            <h1 className={styles.name}>
-              Марк <span className={styles.surname}>Шарапов</span>
-            </h1>
+          <span className={[styles.anim, styles.anim1, styles.label].join(' ')}>
+            Frontend Developer
+          </span>
 
-            <p className={styles.tagline}>
-              Веб-разработка и разработка продуктов — React/TypeScript, чистые UI-системы и быстрые итерации.
-Я создаю целевые страницы и интерфейсы, которые выглядят премиально и надежно работают.
-            </p>
+          <h1 className={[styles.anim, styles.anim2, styles.name].join(' ')}>
+            Марк Шарапов
+          </h1>
 
-            <div className={styles.actions}>
-              <a className={styles.primaryLink} href="#contacts">
-                Контакты
-              </a>
+          <p className={[styles.anim, styles.anim3, styles.tagline].join(' ')}>
+            Создаю сайты и интерфейсы, которые выглядят премиально
+          </p>
 
-              <a className={styles.secondaryLink} href="#cases">
-                Кейсы
-              </a>
-            </div>
-          </div>
-
-          <div className={styles.right} aria-hidden>
-            <div className={styles.photoWrap}>
-              <img className={styles.photo} src={markSilhouette} alt="" />
-            </div>
+          <div className={[styles.anim, styles.anim4, styles.actions].join(' ')}>
+            <a className={styles.primaryLink} href="#cases">
+              Смотреть проекты
+            </a>
+            <a className={styles.secondaryLink} href="#contacts">
+              Связаться
+            </a>
           </div>
         </div>
       </Container>
+
+      <div className={styles.scrollIndicator} aria-hidden="true">
+        <CaretDown size={20} weight="bold" />
+      </div>
     </section>
   )
 }
