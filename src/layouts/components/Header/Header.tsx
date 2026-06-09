@@ -7,6 +7,7 @@ import {
   Envelope,
   FileText,
   FolderSimple,
+  GithubLogo,
   GraduationCap,
   House,
   Plus,
@@ -264,7 +265,19 @@ export function Header() {
           </a>
         )}
 
-        {mode === 'tutor' || mode === 'dev' ? (
+        {mode === 'dev' && (
+          <a
+            href="https://github.com/marksharapovDev"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={[styles.cvDownloadPill, styles.devGithubPill].join(' ')}
+          >
+            <GithubLogo size={18} weight="bold" aria-hidden="true" />
+            <span>Проекты на GitHub</span>
+          </a>
+        )}
+
+        {mode === 'tutor' ? (
           <nav className={styles.mobileNav} aria-label={`${mode} mobile navigation`}>
             {menu.map((item) => {
               const isActive = activeMenu === item.label

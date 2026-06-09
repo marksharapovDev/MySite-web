@@ -7,8 +7,11 @@ export type DevProject = {
   year: string
   accent: string
   accentSoft: string
-  video: string
-  poster: string
+  videoDesktop: string
+  videoMobile: string
+  posterDesktop: string
+  posterMobile: string
+  siteHref?: string
   bullets: string[]
   stack: string[]
   links?: {
@@ -28,8 +31,11 @@ export const devProjects: DevProject[] = [
     year: '2026',
     accent: '#3b82f6',
     accentSoft: 'rgba(59, 130, 246, 0.18)',
-    video: '/dev-showcase/videos/repka.mp4',
-    poster: '/dev-showcase/posters/repka.png',
+    videoDesktop: '/dev-showcase/videos/repka-desktop.mp4',
+    videoMobile: '/dev-showcase/videos/repka-mobile.mp4',
+    posterDesktop: '/dev-showcase/posters/repka-desktop.png',
+    posterMobile: '/dev-showcase/posters/repka-mobile.png',
+    siteHref: 'https://tryrepka.ru',
     bullets: [
       'Личный кабинет для двух ролей: репетитор и ученик',
       'Интерактивные сценарии урока с материалами и доской',
@@ -38,8 +44,8 @@ export const devProjects: DevProject[] = [
     stack: ['React', 'TypeScript', 'AI tools'],
   },
   {
-    id: 'ligroup',
-    title: 'LiGroup',
+    id: 'siriona',
+    title: 'Сириона',
     eyebrow: 'VR learning platform',
     summary:
       'VR-платформа для школ с дистанционным обучением, учебными сценариями и прогрессом учеников.',
@@ -47,8 +53,11 @@ export const devProjects: DevProject[] = [
     year: '2025',
     accent: '#ef4444',
     accentSoft: 'rgba(239, 68, 68, 0.18)',
-    video: '/dev-showcase/videos/ligroup.mp4',
-    poster: '/dev-showcase/posters/ligroup.png',
+    videoDesktop: '/dev-showcase/videos/siriona-desktop.mp4',
+    videoMobile: '/dev-showcase/videos/siriona-mobile.mp4',
+    posterDesktop: '/dev-showcase/posters/siriona-desktop.png',
+    posterMobile: '/dev-showcase/posters/siriona-mobile.png',
+    siteHref: 'https://vrtracking.ru',
     bullets: [
       'Интерфейс для сложного образовательного продукта',
       'Акцент на понятную навигацию для школ и преподавателей',
@@ -66,8 +75,11 @@ export const devProjects: DevProject[] = [
     year: '2025',
     accent: '#22c55e',
     accentSoft: 'rgba(34, 197, 94, 0.18)',
-    video: '/dev-showcase/videos/jagervps.mp4',
-    poster: '/dev-showcase/posters/jagervps.png',
+    videoDesktop: '/dev-showcase/videos/jager-desktop.mp4',
+    videoMobile: '/dev-showcase/videos/jager-mobile.mp4',
+    posterDesktop: '/dev-showcase/posters/jager-desktop.png',
+    posterMobile: '/dev-showcase/posters/jager-mobile.png',
+    siteHref: 'https://jager-vps.ru',
     bullets: [
       'Кабинет для управления подпиской и доступами',
       'Интерфейс поверх инфраструктурной логики',

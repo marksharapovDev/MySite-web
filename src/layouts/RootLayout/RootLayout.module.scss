@@ -22,6 +22,20 @@
   overflow: hidden;
 }
 
+.devHeader {
+  display: contents;
+}
+
+@media (max-width: 767px) {
+  .rootFixed,
+  .mainFixed {
+    height: 100svh;
+    min-height: 0;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+}
+
 /* ===== Desktop-only background ornaments (do NOT affect mobile) ===== */
 @media (min-width: 981px) {
   /* create stacking context for background layers */

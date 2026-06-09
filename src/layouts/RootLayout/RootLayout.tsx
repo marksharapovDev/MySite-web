@@ -28,7 +28,11 @@ export function RootLayout() {
         }}
       /> */}
       <ScrollRestoration />
-      {!isHome && <Header />}
+      {!isHome && (
+        <div className={isDev ? styles.devHeader : ''}>
+          <Header />
+        </div>
+      )}
       <main className={[styles.main, isDev ? styles.mainFixed : ''].filter(Boolean).join(' ')}>
         <Outlet />
       </main>

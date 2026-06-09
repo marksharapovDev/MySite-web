@@ -354,26 +354,35 @@
   .cvDownloadPill {
     pointer-events: auto;
     flex: 1;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
 
     height: 64px;
     border-radius: 999px;
 
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.10);
-    backdrop-filter: blur(14px);
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025)),
+      rgb(14, 17, 22);
+    border: 0;
+    -webkit-backdrop-filter: blur(54px) saturate(220%) contrast(122%);
+    backdrop-filter: blur(54px) saturate(220%) contrast(122%);
     box-shadow:
-      0 18px 60px rgba(0, 0, 0, 0.35),
-      0 1px 0 rgba(255, 255, 255, 0.06) inset;
+      0 18px 60px rgba(0, 0, 0, 0.42),
+      0 1px 0 rgba(255, 255, 255, 0.22) inset,
+      0 -1px 0 rgba(255, 255, 255, 0.08) inset,
+      0 0 18px rgba(255, 255, 255, 0.08) inset;
 
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: $space-2;
     text-decoration: none;
 
     font-family: 'DM Mono', monospace;
     font-size: 13px;
     letter-spacing: 0.06em;
-    color: rgba(240, 239, 233, 0.75);
+    color: rgba(255, 255, 255, 0.82);
     cursor: pointer;
 
     transition:
@@ -394,9 +403,43 @@
     }
   }
 
+  .cvDownloadPill > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .devGithubPill {
+    font-family: $font-sans;
+    font-size: 14px;
+    font-weight: $fw-semibold;
+    letter-spacing: 0;
+  }
+
+  .cvDownloadPill::before,
+  .mobileNav::before,
+  .mobileModeNav::before,
+  .mobileModeButton::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.10), transparent 28%),
+      linear-gradient(135deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018) 44%, rgba(255, 255, 255, 0.035));
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.22) inset,
+      0 -1px 0 rgba(255, 255, 255, 0.08) inset,
+      0 0 18px rgba(255, 255, 255, 0.08) inset;
+  }
+
   .mobileNav {
     pointer-events: auto;
     flex: 1;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
 
     display: flex;
     height: 64px;
@@ -405,6 +448,12 @@
     padding-inline: 4px;
 
     @include m.glass-panel($radius: 999px);
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025)),
+      rgb(14, 17, 22);
+    border: 0;
+    -webkit-backdrop-filter: blur(54px) saturate(220%) contrast(122%);
+    backdrop-filter: blur(54px) saturate(220%) contrast(122%);
   }
 
   /* Hide mobileNav when there's no menu */
@@ -414,6 +463,8 @@
 
   .mobileItem {
     pointer-events: auto;
+    position: relative;
+    z-index: 1;
 
     appearance: none;
     border: 0;
@@ -432,7 +483,7 @@
     padding: 0;
     border-radius: 999px;
 
-    color: $text-muted;
+    color: rgba(255, 255, 255, 0.82);
 
     transition:
       background $dur-3 $ease-out,
@@ -465,6 +516,9 @@
   .mobileModeNav {
     pointer-events: auto;
     flex: 0 0 auto;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
 
     display: flex;
     height: 64px;
@@ -473,10 +527,18 @@
     padding-inline: 4px;
 
     @include m.glass-panel($radius: 999px);
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025)),
+      rgb(14, 17, 22);
+    border: 0;
+    -webkit-backdrop-filter: blur(54px) saturate(220%) contrast(122%);
+    backdrop-filter: blur(54px) saturate(220%) contrast(122%);
   }
 
   .mobileModeItem {
     pointer-events: auto;
+    position: relative;
+    z-index: 1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -485,7 +547,7 @@
     height: 52px;
     border-radius: 999px;
 
-    color: $text-muted;
+    color: rgba(255, 255, 255, 0.82);
 
     transition:
       background $dur-3 $ease-out,
@@ -530,38 +592,30 @@
 
     position: relative;
     overflow: hidden;
+    isolation: isolate;
 
     display: inline-flex;
     align-items: center;
     justify-content: center;
 
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    background: rgba(18, 18, 20, 0.55);
-    backdrop-filter: blur(16px);
+    border: 0;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025)),
+      rgb(14, 17, 22);
+    -webkit-backdrop-filter: blur(54px) saturate(220%) contrast(122%);
+    backdrop-filter: blur(54px) saturate(220%) contrast(122%);
 
     box-shadow:
-      0 18px 60px rgba(0, 0, 0, 0.55),
-      0 1px 0 rgba(255, 255, 255, 0.06) inset;
+      0 18px 60px rgba(0, 0, 0, 0.42),
+      0 1px 0 rgba(255, 255, 255, 0.22) inset,
+      0 -1px 0 rgba(255, 255, 255, 0.08) inset,
+      0 0 18px rgba(255, 255, 255, 0.08) inset;
 
     transition:
       transform $dur-3 $ease-out,
       background $dur-3 $ease-out,
       border-color $dur-3 $ease-out,
       box-shadow $dur-3 $ease-out;
-  }
-
-  .mobileModeButton::before {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    border-radius: 999px;
-
-    background:
-      radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.00) 60%),
-      radial-gradient(circle at 70% 70%, var(--accent-bg-glow), rgba(255, 255, 255, 0.00) 62%);
-
-    opacity: 0.9;
-    pointer-events: none;
   }
 
   .mobileModeButton:active {
@@ -587,6 +641,6 @@
     width: 28px;
     height: 28px;
 
-    color: var(--accent);
+    color: rgba(255, 255, 255, 0.82);
   }
 }

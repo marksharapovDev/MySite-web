@@ -8,6 +8,7 @@ const wheelThreshold = 24
 const touchThreshold = 48
 const transitionMs = 620
 const edgeOffset = 8
+const mobileQuery = '(max-width: 767px)'
 
 type ViewTransitionDocument = Document & {
   startViewTransition?: (callback: () => void) => {
@@ -17,6 +18,10 @@ type ViewTransitionDocument = Document & {
 
 function getSlideIndex(pathname: string) {
   return slideRoutes.findIndex((route) => route === pathname)
+}
+
+function isMobileViewport() {
+  return window.matchMedia(mobileQuery).matches
 }
 
 function isAtPageEdge(direction: SlideDirection) {
@@ -79,6 +84,14 @@ export function usePageSlideNavigation() {
   }, [navigate])
 
   const tryNavigate = useCallback((direction: SlideDirection) => {
+    if (isMobileViewport()) {
+      if (pathnameRef.current !== '/' || direction !== 'next') return false
+      if (!isAtPageEdge(direction)) return false
+
+      goToRoute('/cv', direction)
+      return true
+    }
+
     const index = getSlideIndex(pathnameRef.current)
     if (index < 0) return false
 

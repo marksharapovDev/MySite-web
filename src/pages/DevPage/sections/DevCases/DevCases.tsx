@@ -1,6 +1,8 @@
 import {
+  ArrowSquareOut,
   CaretLeft,
   CaretRight,
+  Pause,
   Play,
 } from '@phosphor-icons/react'
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
@@ -12,6 +14,7 @@ import styles from './DevCases.module.scss'
 
 const SEEK_SPEED = 0.008
 const EDGE_EPSILON = 0.12
+const MOBILE_QUERY = '(max-width: 767px)'
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value))
@@ -26,6 +29,10 @@ function hexToRgba(hex: string, alpha: number) {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`
 }
 
+function isMobileViewport() {
+  return typeof window !== 'undefined' && window.matchMedia(MOBILE_QUERY).matches
+}
+
 export function DevCases() {
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const touchStartY = useRef(0)
@@ -33,8 +40,11 @@ export function DevCases() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [progress, setProgress] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [showMobileControls, setShowMobileControls] = useState(true)
+  const [isMobile, setIsMobile] = useState(() => isMobileViewport())
 
   const activeProject = devProjects[activeIndex]
+  const activePoster = isMobile ? activeProject.posterMobile : activeProject.posterDesktop
 
   const projectStyle = {
     '--project-accent': activeProject.accent,
@@ -57,6 +67,18 @@ export function DevCases() {
     }
   }, [activeProject])
 
+  useEffect(() => {
+    const media = window.matchMedia(MOBILE_QUERY)
+    const updateViewport = () => setIsMobile(media.matches)
+
+    updateViewport()
+    media.addEventListener('change', updateViewport)
+
+    return () => {
+      media.removeEventListener('change', updateViewport)
+    }
+  }, [])
+
   const selectProject = (index: number, startAt: 'start' | 'end' = 'start') => {
     const nextIndex = clamp(index, 0, devProjects.length - 1)
     const video = videoRef.current
@@ -71,6 +93,7 @@ export function DevCases() {
     setActiveIndex(nextIndex)
     setProgress(startAt === 'end' ? 1 : 0)
     setIsPlaying(false)
+    setShowMobileControls(true)
   }
 
   const updateProgress = (video: HTMLVideoElement) => {
@@ -100,25 +123,38 @@ export function DevCases() {
     if (!video) return
 
     if (video.paused) {
-      video.play().then(() => setIsPlaying(true)).catch(() => undefined)
+      setIsPlaying(true)
+      setShowMobileControls(false)
+      video.play().then(() => {
+        setIsPlaying(true)
+        setShowMobileControls(false)
+      }).catch(() => setIsPlaying(false))
       return
     }
 
-    video.pause()
     setIsPlaying(false)
+    video.pause()
+    if (isMobileViewport()) {
+      setShowMobileControls(true)
+    }
   }
 
+  const showPlayButton = !isPlaying || showMobileControls
+
   const onWheel = (event: React.WheelEvent<HTMLElement>) => {
+    if (isMobileViewport()) return
     event.preventDefault()
     event.stopPropagation()
     seekActiveVideo(event.deltaY)
   }
 
   const onTouchStart = (event: React.TouchEvent<HTMLElement>) => {
+    if (isMobileViewport()) return
     touchStartY.current = event.touches[0]?.clientY ?? 0
   }
 
   const onTouchEnd = (event: React.TouchEvent<HTMLElement>) => {
+    if (isMobileViewport()) return
     const touch = event.changedTouches[0]
     if (!touch) return
 
@@ -145,13 +181,12 @@ export function DevCases() {
           <div className={styles.body}>
             <div className={styles.stage}>
               <div className={styles.stageGlow} aria-hidden="true" />
-              <div className={styles.videoShell}>
+              <div className={[styles.videoShell, isPlaying ? styles.videoShellPlaying : ''].filter(Boolean).join(' ')}>
                 <video
-                  key={activeProject.video}
+                  key={activeProject.id}
                   ref={videoRef}
                   className={styles.video}
-                  src={activeProject.video}
-                  poster={activeProject.poster}
+                  poster={activePoster}
                   muted
                   playsInline
                   preload="auto"
@@ -171,19 +206,75 @@ export function DevCases() {
                   onEnded={() => {
                     setProgress(1)
                     setIsPlaying(false)
+                    setShowMobileControls(true)
+                  }}
+                  onClick={() => {
+                    if (isMobileViewport() && isPlaying) {
+                      setShowMobileControls((visible) => !visible)
+                    }
                   }}
                   aria-label={`${activeProject.title}: видео проекта`}
-                />
+                >
+                  <source src={activeProject.videoMobile} media="(max-width: 767px)" type="video/mp4" />
+                  <source src={activeProject.videoDesktop} type="video/mp4" />
+                </video>
 
                 <button
-                  className={[styles.playButton, isPlaying ? styles.playButtonActive : '']
+                  className={[
+                    styles.playButton,
+                    isPlaying ? styles.playButtonActive : '',
+                    !showPlayButton ? styles.playButtonHiddenMobile : '',
+                    isPlaying && showMobileControls ? styles.stopButtonVisible : '',
+                  ]
                     .filter(Boolean)
                     .join(' ')}
                   type="button"
                   onClick={togglePlayback}
                   aria-label={isPlaying ? 'Поставить видео на паузу' : 'Воспроизвести видео'}
                 >
-                  <Play size={18} weight="fill" aria-hidden="true" />
+                  {isPlaying ? (
+                    <Pause size={18} weight="fill" aria-hidden="true" />
+                  ) : (
+                    <Play size={18} weight="fill" aria-hidden="true" />
+                  )}
+                </button>
+
+                {activeProject.siteHref && (
+                  <a
+                    className={[styles.siteButton, isPlaying ? styles.siteButtonHiddenMobile : ''].filter(Boolean).join(' ')}
+                    href={activeProject.siteHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Перейти на сайт проекта ${activeProject.title}`}
+                  >
+                    <ArrowSquareOut size={18} weight="bold" aria-hidden="true" />
+                  </a>
+                )}
+
+                <button
+                  className={[
+                    styles.mobileProjectArrow,
+                    styles.mobileProjectArrowPrev,
+                    isPlaying && !showMobileControls ? styles.mobileProjectArrowHidden : '',
+                  ].filter(Boolean).join(' ')}
+                  type="button"
+                  onClick={() => selectProject((activeIndex - 1 + devProjects.length) % devProjects.length)}
+                  aria-label="Предыдущий проект"
+                >
+                  <CaretLeft size={18} weight="bold" aria-hidden="true" />
+                </button>
+
+                <button
+                  className={[
+                    styles.mobileProjectArrow,
+                    styles.mobileProjectArrowNext,
+                    isPlaying && !showMobileControls ? styles.mobileProjectArrowHidden : '',
+                  ].filter(Boolean).join(' ')}
+                  type="button"
+                  onClick={() => selectProject((activeIndex + 1) % devProjects.length)}
+                  aria-label="Следующий проект"
+                >
+                  <CaretRight size={18} weight="bold" aria-hidden="true" />
                 </button>
 
                 <div className={styles.projectOverlay}>
@@ -191,6 +282,12 @@ export function DevCases() {
                   <h1 className={styles.overlayTitle}>{activeProject.title}</h1>
                   <p className={styles.overlaySummary}>{activeProject.summary}</p>
                 </div>
+
+                {isPlaying && (
+                  <div className={styles.mobileVideoTimeline} aria-hidden="true">
+                    <span style={{ transform: `scaleX(${progress})` }} />
+                  </div>
+                )}
               </div>
 
               <div className={styles.metaRow}>
