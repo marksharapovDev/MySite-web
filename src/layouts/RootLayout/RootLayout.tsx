@@ -29,7 +29,7 @@ export function RootLayout() {
       /> */}
       <ScrollRestoration />
       {!isHome && (
-        <div className={isDev ? styles.devHeader : ''}>
+        <div className={[styles.headerSlot, isDev ? styles.devHeader : ''].filter(Boolean).join(' ')}>
           <Header />
         </div>
       )}
